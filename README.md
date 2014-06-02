@@ -59,4 +59,13 @@ do not need to change, specify the search api of baidu mp3
 
 the base directory to store your music files. We will create sub directory(named by singer's name) under this directory.
 
+Requirements:
+=============
 
+easy_install BeautifulSoup
+
+use 结巴分词 before， but the result is not satisfied.
+use ncurses before. But I can hardly find any documents.Maybe needs an UI.
+
+Not tested under windows which I rarely used.
+Maybe tested under mac later. Looking forword to the product launch of apple tonight.
