@@ -1,7 +1,7 @@
 MusicCategory
 =============
 
-a tool to category unknown singer songs. use Baidu to find the information of the song and automatically copy the song to a direction named by the singer's name.
+a tool to category unknown singer songs. use Baidu to find the information of the song and automatically copy the song to a directory named by the singer's name.
 
 
 Usage:
