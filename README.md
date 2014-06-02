@@ -56,7 +56,6 @@ Result:
     .
     └── 泡沫.mp3
 
-It's 琪 instead of 棋 actually.......
 
 Config:
 =============
