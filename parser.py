@@ -36,6 +36,7 @@ def download_url(filename):
 
 def parse(filename):
     """"""
+    wordcount ={}
     try:
         words = download_url(filename)
     except Exception , e:
