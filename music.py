@@ -25,9 +25,11 @@ def print_result(word_result):
     for (word, times) in result_list:
         print idx, word
         idx+=1
+    return result_list
 
 def category_file(file_path, dest_dir):
     """"""
+    print file_path, dest_dir
     if not config.base_dir:
         raise config.ConfigException
     dest_path = os.path.join(config.base_dir, dest_dir)
@@ -55,7 +57,7 @@ if __name__ == '__main__':
         fpath, fname = os.path.split(filepath)
         filename, ext=os.path.splitext(fname)
         result = parser.parse(filename)
-        print_result(result)
+        result = print_result(result)
         while True:
             try:
                 option = int(raw_input("select a most probably one: \n"))
@@ -64,7 +66,7 @@ if __name__ == '__main__':
                 continue
             if option >= 0 and option < len(result):
                 try:
-                    category_file(filepath, result.items()[option][0])
+                    category_file(filepath, result[option][0])
                 except Exception , e:
                     print "failed to copy file to category"
                     raise e
