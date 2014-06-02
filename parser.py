@@ -16,7 +16,7 @@ def download_url(filename):
     if not config.url_pattern:
         raise config.ConfigException
 
-    url = config.url_pattern%(filename)
+    url = config.url_pattern%(filename.replace(' ',''))
     try:
         response, content = request.request(url)
     except exception.WebException , e:

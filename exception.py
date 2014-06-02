@@ -7,7 +7,7 @@ class ConfigException(Exception):
         """"""
         print "config Error"
 
-class WebExcetiption(Exception):
+class WebException(Exception):
     def __init__(self):
         """"""
         print "Connection Error whild downloading"
