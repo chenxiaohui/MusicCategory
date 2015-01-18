@@ -34,7 +34,7 @@ def category_file(file_path, dest_dir):
         raise config.ConfigException
     try:
         #dest_path = os.path.join(config.base_dir, dest_dir)
-        dest_path = "%s/%s" %(config.base_dir, dest_dir.encode('utf-8'))
+        dest_path = "%s/%s" %(config.base_dir, dest_dir)
     except Exception , e:
         print "failed to get dest path"
         raise e
@@ -45,32 +45,46 @@ def category_file(file_path, dest_dir):
             print "failed to create dir"
             raise e
 
-    copy_cmd = "cp '%s' %s"% (file_path, dest_path)
+    if config.del_after_copy:
+        copy_cmd = "mv '%s' %s"% (file_path, dest_path)
+        try:
+            shutil.move(filepath, dest_path)
+        except Exception , e:
+            print "Error" + str(e) 
+    else:
+        copy_cmd = "cp '%s' %s"% (file_path, dest_path)
+        shutil.copy(filepath, dest_path)
+
     print copy_cmd
-    shutil.copy(filepath, dest_path)
 
 def process_one_file(filepath):
     """"""
     fpath, fname = os.path.split(filepath)
     filename, ext=os.path.splitext(fname)
     result = parser.parse(filename)
+    result.update(config.extra)
     result = print_result(result)
-    while True:
+    try:
+        option = int(raw_input("select a most probably one: \n"))
+    except Exception , e:
+        print "Input data error"
+        raise e
+
+    if option >= 0 and option < len(result):
+        category = result[option][0].encode('utf-8')
+        if category == "自定义":
+            print ("请输入："),
+            category = raw_input()
+        if config.prompt:
+            print ("Sure to copy to category %s? (Y/n)"%category)
+            confirm = raw_input()
+            if confirm.upper() !='Y' and confirm !='':
+                return
         try:
-            option = int(raw_input("select a most probably one: \n"))
+            category_file(filepath, category)
         except Exception , e:
-            print "Input data error"
-            continue
-        if option >= 0 and option < len(result):
-                print ("Sure to copy to category %s? (Y/n)"%result[option][0])
-                confirm = raw_input()
-                if confirm.upper() =='Y' or confirm =='':
-                    try:
-                        category_file(filepath, result[option][0])
-                    except Exception , e:
-                        print "failed to copy file to category"
-                        raise e
-                break
+            print "failed to copy file to category"
+            raise e
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
@@ -82,4 +96,5 @@ if __name__ == '__main__':
             print "failed to dected base dir"
         del sys.argv[0]
         for filepath in sys.argv:
+            print "----------------------%s----------------------"%filepath
             process_one_file(filepath)
