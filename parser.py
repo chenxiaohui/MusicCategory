@@ -12,7 +12,7 @@ from collections import Counter
 def download_url(filename):
     """"""
     words={}
-    request = httplib2.Http('.cache')
+    request = httplib2.Http()
     if not config.url_pattern:
         raise config.ConfigException
 
@@ -20,7 +20,7 @@ def download_url(filename):
     try:
         response, content = request.request(url)
     except exception.WebException , e:
-        raise e
+        raise
     if response.status == 200:
         try:
             soup = BeautifulSoup(content)
@@ -30,7 +30,7 @@ def download_url(filename):
                 html_tags.extend(song_list.findAll("span", {"class":"singer"}))
                 words = [tag.text for tag in html_tags]
         except Exception , e:
-            raise e
+            raise
 
     return words
 
@@ -40,7 +40,7 @@ def parse(filename):
     try:
         words = download_url(filename)
     except Exception , e:
-        raise e
+        raise
     if words:
         words = [re.sub(r'[-()]', '', word) for word in words]
         words_split = []
